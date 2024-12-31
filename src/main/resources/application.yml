@@ -1,0 +1,19 @@
+spring:
+    application:
+        name: bp-api-code-postaux
+    datasource:
+        url: jdbc:postgresql://localhost:5432/sibp
+        username: sibp_adm
+        password:
+        driverClassName: org.postgresql.Driver
+    jpa:
+        database: postgresql
+        hibernate:
+            ddl-auto: none
+        show-sql: true
+    liquibase:
+        change-log: classpath:db/changelog/db.changelog-master.xml
+springdoc:
+    override-with-generic-response: false
+    swagger-ui:
+        tagsSorter: alpha

@@ -1,0 +1,34 @@
+services:
+  postgres-sibp:
+    image: postgres:15
+    container_name: postgres_sibp
+    environment:
+      - POSTGRES_DB=sibp
+      - POSTGRES_USER=sibp_adm
+      - POSTGRES_PASSWORD=
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./sibp.sql:/docker-entrypoint-initdb.d/sibp.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "sibp_adm", "-d", "sibp", "-h", "127.0.0.1" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  api-recherche:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api_recherche
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-sibp:5432/sibp
+      SPRING_DATASOURCE_USERNAME: sibp_adm
+      SPRING_DATASOURCE_PASSWORD: your_password
+    depends_on:
+      postgres-sibp:
+        condition: service_healthy
+    ports:
+      - "8080:8080"

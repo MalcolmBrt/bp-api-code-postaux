@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- ChangeSet for creating the boites_postales view -->
+    <changeSet id="1-create-boites_postales-view" author="mbertaina">
+        <createView viewName="boites_postales_view">
+            SELECT 
+                p.id, 
+                a.nom AS agence, 
+                LTRIM(p.num_bp, '0') AS numero, 
+                cp.code AS code_postal, 
+                cp.localite
+            FROM produit p
+            JOIN code_postal cp ON p.code_postal_id = cp.id
+            JOIN agence a ON cp.agence_id = a.id
+            ORDER BY a.nom;
+        </createView>
+    </changeSet>
+
+    <!-- ChangeSet for creating the communes_localites table -->
+    <changeSet id="2-create-communes-localites-table" author="mbertaina">
+        <createTable tableName="communes_localites">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="commune" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="localite" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- ChangeSet for creating the codes_postaux view -->
+    <changeSet id="3-create-codes_postaux-view" author="mbertaina">
+        <createView viewName="codes_postaux_view">
+            SELECT 
+                cp.id, 
+                cl.commune,
+                cp.localite, 
+                cp.code, 
+                cp.domicile AS type_domicile, 
+                cp.bp AS type_bp
+            FROM code_postal cp
+            LEFT JOIN produit p ON cp.id = p.code_postal_id
+            LEFT JOIN communes_localites cl ON cp.localite = cl.localite
+            GROUP BY cp.id, cl.commune
+            ORDER BY cp.code;
+        </createView>
+    </changeSet>
+
+    <!-- Example data insertion -->
+    <changeSet id="4-insert-communes-localites-data" author="mbertaina">
+        <insert tableName="communes_localites">
+            <column name="commune" value="NOUMEA"/>
+            <column name="localite" value="NOUMEA"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="NOUMEA"/>
+            <column name="localite" value="NOUMEA CEDEX"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="NOUMEA"/>
+            <column name="localite" value="NOUMEA CEDEX "/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="MONT DORE"/>
+            <column name="localite" value="MONT DORE"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="BELEP"/>
+            <column name="localite" value="BELEP"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="BOULOUPARIS"/>
+            <column name="localite" value="BOULOUPARIS"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="CANALA"/>
+            <column name="localite" value="CANALA"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="OUVEA"/>
+            <column name="localite" value="FAYAOUE"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="HIENGHENE"/>
+            <column name="localite" value="HIENGHENE"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="HOUAILOU"/>
+            <column name="localite" value="HOUAILOU"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="KAALA GOMEN"/>
+            <column name="localite" value="KAALA GOMEN"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="KOUAOUA"/>
+            <column name="localite" value="KOUAOUA"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="MOINDOU"/>
+            <column name="localite" value="MOINDOU"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="LIFOU"/>
+            <column name="localite" value="WE"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="OUEGOA"/>
+            <column name="localite" value="OUEGOA"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="POINDIMIE"/>
+            <column name="localite" value="POINDIMIE"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="PONERIHOUEN"/>
+            <column name="localite" value="PONERIHOUEN"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="POUEBO"/>
+            <column name="localite" value="POUEBO"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="POUEMBOUT"/>
+            <column name="localite" value="POUEMBOUT"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="POYA"/>
+            <column name="localite" value="POYA"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="POUM"/>
+            <column name="localite" value="POUM"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="MARE"/>
+            <column name="localite" value="TADINE"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="THIO"/>
+            <column name="localite" value="THIO"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="DUMBEA"/>
+            <column name="localite" value="DUMBEA"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="TOUHO"/>
+            <column name="localite" value="TOUHO"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="ILE DES PINS"/>
+            <column name="localite" value="VAO"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="VOH"/>
+            <column name="localite" value="VOH"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="YATE"/>
+            <column name="localite" value="YATE"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="DUMBEA"/>
+            <column name="localite" value="DUMBEA GA"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="HOUAILOU"/>
+            <column name="localite" value="PORO"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="PAITA"/>
+            <column name="localite" value="TONTOUTA"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="KOUMAC"/>
+            <column name="localite" value="KOUMAC"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="KONE"/>
+            <column name="localite" value="KONE"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="BOURAIL"/>
+            <column name="localite" value="BOURAIL"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="MONT DORE"/>
+            <column name="localite" value="PONT DES FRANÇAIS"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="MONT DORE"/>
+            <column name="localite" value="PLUM"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="MONT DORE"/>
+            <column name="localite" value="LA COULEE"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="POYA"/>
+            <column name="localite" value="NEPOUI"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="MARE"/>
+            <column name="localite" value="LA ROCHE"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="LA FOA"/>
+            <column name="localite" value="LA FOA"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="FARINO"/>
+            <column name="localite" value="FARINO"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="SARRAMEA"/>
+            <column name="localite" value="SARRAMEA"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="KAALA GOMEN"/>
+            <column name="localite" value="OUACO"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="LIFOU"/>
+            <column name="localite" value="CHEPENEHE"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="LIFOU"/>
+            <column name="localite" value="MOU"/>
+        </insert>
+        <insert tableName="communes_localites">
+            <column name="commune" value="PAITA"/>
+            <column name="localite" value="PAITA"/>
+        </insert>
+    </changeSet>
+    
+</databaseChangeLog>
