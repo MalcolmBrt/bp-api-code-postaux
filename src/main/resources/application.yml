@@ -4,7 +4,7 @@ spring:
     datasource:
         url: jdbc:postgresql://localhost:5432/sibp
         username: sibp_adm
-        password:
+        password: sibp_adm
         driverClassName: org.postgresql.Driver
     jpa:
         database: postgresql

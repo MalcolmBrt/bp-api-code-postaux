@@ -70363,14 +70363,6 @@ ALTER TABLE ONLY sibp_adm.code_postal
 
 
 --
--- Name: produit fk_produit_localisation; Type: FK CONSTRAINT; Schema: sibp_adm; Owner: sibp_adm
---
-
-ALTER TABLE ONLY sibp_adm.produit
-    ADD CONSTRAINT fk_produit_localisation FOREIGN KEY (localisation_id) REFERENCES sibp_adm.localisation(id);
-
-
---
 -- Name: produit fk_produit_on_code_postal; Type: FK CONSTRAINT; Schema: sibp_adm; Owner: sibp_adm
 --
 

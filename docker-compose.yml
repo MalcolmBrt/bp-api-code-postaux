@@ -5,8 +5,8 @@ services:
     environment:
       - POSTGRES_DB=sibp
       - POSTGRES_USER=sibp_adm
-      - POSTGRES_PASSWORD=
-      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_PASSWORD=sibp_adm
+      - POSTGRES_HOST_AUTH_METHOD=md5
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./sibp.sql:/docker-entrypoint-initdb.d/sibp.sql
@@ -26,7 +26,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-sibp:5432/sibp
       SPRING_DATASOURCE_USERNAME: sibp_adm
-      SPRING_DATASOURCE_PASSWORD: your_password
+      SPRING_DATASOURCE_PASSWORD: sibp_adm
     depends_on:
       postgres-sibp:
         condition: service_healthy
